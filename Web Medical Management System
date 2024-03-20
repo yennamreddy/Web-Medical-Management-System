@@ -1,0 +1,146 @@
+# Web-Medical-Management-System
+
+import java.util.*;
+
+// Base class for all users
+class User {
+    private String username;
+    private String password;
+
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    // Getters and setters
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+}
+
+// Represents a Patient
+class Patient extends User {
+    private String name;
+    private String email;
+    private String phoneNumber;
+
+    public Patient(String username, String password, String name, String email, String phoneNumber) {
+        super(username, password);
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
+    // Getters and setters
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+}
+
+// Represents a Doctor
+class Doctor extends User {
+    private String name;
+    private String specialization;
+    private List<PatientRecord> patientRecords;
+
+    public Doctor(String username, String password, String name, String specialization) {
+        super(username, password);
+        this.name = name;
+        this.specialization = specialization;
+        this.patientRecords = new ArrayList<>();
+    }
+
+    // Getters and setters
+    public String getName() {
+        return name;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public List<PatientRecord> getPatientRecords() {
+        return patientRecords;
+    }
+
+    public void addPatientRecord(PatientRecord record) {
+        patientRecords.add(record);
+    }
+}
+
+// Represents a Patient's medical record
+class PatientRecord {
+    private Patient patient;
+    private Doctor doctor;
+    private Date appointmentDate;
+    private String diagnosis;
+    private String prescription;
+
+    public PatientRecord(Patient patient, Doctor doctor, Date appointmentDate, String diagnosis, String prescription) {
+        this.patient = patient;
+        this.doctor = doctor;
+        this.appointmentDate = appointmentDate;
+        this.diagnosis = diagnosis;
+        this.prescription = prescription;
+    }
+
+    // Getters and setters
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public Doctor getDoctor() {
+        return doctor;
+    }
+
+    public Date getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public String getDiagnosis() {
+        return diagnosis;
+    }
+
+    public String getPrescription() {
+        return prescription;
+    }
+}
+
+// Main class to demonstrate usage
+public class Main {
+    public static void main(String[] args) {
+        // Creating patients
+        Patient patient1 = new Patient("patient1", "password", "John Doe", "john@example.com", "1234567890");
+        Patient patient2 = new Patient("patient2", "password", "Jane Smith", "jane@example.com", "0987654321");
+
+        // Creating doctors
+        Doctor doctor1 = new Doctor("doctor1", "password", "Dr. Smith", "Cardiology");
+        Doctor doctor2 = new Doctor("doctor2", "password", "Dr. Johnson", "Pediatrics");
+
+        // Creating patient records
+        PatientRecord record1 = new PatientRecord(patient1, doctor1, new Date(), "Flu", "Rest and fluids");
+        PatientRecord record2 = new PatientRecord(patient2, doctor2, new Date(), "Broken leg", "Prescribed painkillers");
+
+        // Adding patient records to doctor's records
+        doctor1.addPatientRecord(record1);
+        doctor2.addPatientRecord(record2);
+
+        // Example: Accessing patient records for a doctor
+        System.out.println("Patient records for Dr. Smith:");
+        for (PatientRecord record : doctor1.getPatientRecords()) {
+            System.out.println("Patient: " + record.getPatient().getName() + ", Diagnosis: " + record.getDiagnosis());
+        }
+    }
+}
